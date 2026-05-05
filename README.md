@@ -1,6 +1,6 @@
-# ZeroCrush
+# SmartMonitor
 
-ZeroCrush is a full-stack crowd monitoring system with:
+SmartMonitor is a full-stack crowd monitoring system with:
 
 - A Next.js frontend dashboard for live monitoring, analytics, settings, and user/session management
 - Python AI backends for video processing, detection, tracking, and artifact generation
@@ -46,7 +46,7 @@ Optional mail variables (login email notifications):
 ```env
 EMAIL=your-gmail@gmail.com
 EMAILPASSWORD=your-app-password
-MAIL_FROM_NAME=ZeroCrush
+MAIL_FROM_NAME=SmartMonitor
 MAIL_FROM_ADDRESS=your-gmail@gmail.com
 ```
 

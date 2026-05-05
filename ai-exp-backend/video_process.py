@@ -26,6 +26,7 @@ from pipeline.overlay import (
 	draw_motion_trails,
 	draw_risk_meter,
 )
+from services.runtime_settings import get_setting
 
 FIXED_YOLO_MODEL_PATH = "yolov8n.pt"
 _MODEL_LOCK = threading.Lock()
@@ -175,7 +176,11 @@ def video_process(
 		update_track_histories(track_histories, humans_detected, record_time)
 
 		# Check for restricted entry (centroid inside polygon)
-		restricted_zone = active_settings["RESTRICTED_ZONE"]
+		# Read `RESTRICTED_ZONE` live from runtime settings so updates apply while streaming.
+		try:
+			restricted_zone = get_setting("RESTRICTED_ZONE")
+		except KeyError:
+			restricted_zone = []
 		zone_points = list(restricted_zone) if isinstance(restricted_zone, list) else []
 		check_restricted_zone = len(zone_points) >= 3
 		RE = detect_restricted_entry(humans_detected, zone_points)

@@ -21,12 +21,23 @@ function parseNumberValue(value: unknown, fieldName: string): number {
 
 function normalizeSessionData(body: Record<string, unknown>): Prisma.SessionCreateInput {
   return {
-    ...body,
+    source: String(body.source ?? ''),
     startTime: parseDateValue(body.startTime, 'startTime'),
     endTime: parseDateValue(body.endTime, 'endTime'),
     videoFps: parseNumberValue(body.videoFps, 'videoFps'),
     processedFrameSize: parseNumberValue(body.processedFrameSize, 'processedFrameSize'),
     trackMaxAge: parseNumberValue(body.trackMaxAge, 'trackMaxAge'),
+    tracksImageBase64: typeof body.tracksImageBase64 === 'string' ? body.tracksImageBase64 : null,
+    heatmapImageBase64: typeof body.heatmapImageBase64 === 'string' ? body.heatmapImageBase64 : null,
+    previewImageBase64: typeof body.previewImageBase64 === 'string' ? body.previewImageBase64 : null,
+    crowdPeakBase64: typeof body.crowdPeakBase64 === 'string' ? body.crowdPeakBase64 : null,
+    violationPeakBase64:
+      typeof body.violationPeakBase64 === 'string'
+        ? body.violationPeakBase64
+        : (typeof body.alertPeakBase64 === 'string' ? body.alertPeakBase64 : null),
+    crowdData: Array.isArray(body.crowdData) ? body.crowdData : null,
+    energyBuckets: Array.isArray(body.energyBuckets) ? body.energyBuckets : null,
+    logEvents: Array.isArray(body.logEvents) ? body.logEvents : null,
   } as Prisma.SessionCreateInput;
 }
 
